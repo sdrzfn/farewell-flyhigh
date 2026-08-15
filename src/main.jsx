@@ -219,6 +219,7 @@ function App() {
         <p className="story-kicker">A small archive of memories</p>
         <h2>Before I leave, I wanted to leave something behind.</h2>
         <p>Every card is a little piece of the journey. Tap any photo to open it, or use the <strong>i</strong> button to open the current page.</p>
+        <p>I'm Sadrakh and officially signing out, peace ✌️</p>
       </section>
 
       {archive && <div className="grid-overlay"><div className="grid-head"><div><small>ARCHIVE</small><h2>For you.</h2></div><button aria-label="Close archive" onClick={() => setArchive(false)}>×</button></div><div className="grid-people">{PEOPLE.map((p, i) => <button key={p.id} onClick={() => navigateToPerson(i)} className="person-tile" style={{ backgroundImage: `url(${p.images[2]})` }}><span>{p.name}</span><small>{p.role}</small></button>)}</div></div>}

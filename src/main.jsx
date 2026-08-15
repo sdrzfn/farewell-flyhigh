@@ -4,28 +4,56 @@ import './styles.css';
 
 const PEOPLE = [
   {
-    id: 'nama-ceo', name: 'CEO', role: 'for you', accent: '#f6d58c',
-    message: `Thank you for trusting me with the CTO / Tech Lead role. I will always remember the opportunity, the lessons, and the people I met here. I'm sorry for every moment when I could have done better.`,
-    note: 'A little thank-you for the person who opened the door.',
-    images: ['https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85']
+    id: 'rendi-panca', name: 'Rendi Panca Wijanarko', role: 'CEO and my brother', accent: '#f6d58c',
+    message: `Terima kasih telah memercayakan peran CTO / Tech Lead ke orang sepertiku. Aku akan selalu mengenang kesempatan, pelajaran, dan orang-orang yang aku temui di sini. Aku memohon maaf atas setiap momen di mana aku seharusnya bisa melakukan yang lebih baik.`,
+    note: 'A much gratitude for the person who opened the door and my brothers in Christ.',
+    labels: ['WHO YOU ARE', 'THE ORIGIN', 'YOUR DAYS AINT IT?', 'WHAT I LEARNED', 'SINCERE GRATITUDE'],
+    images: [
+      '/images/rendi-7.jpeg',
+      '/images/rendi-6.jpeg',
+      '/images/rendi-3.jpeg',
+      '/images/rendi-5.jpeg',
+      '/images/rendi-1.jpeg'
+    ]
   },
   {
-    id: 'nama-cmo', name: 'CMO', role: 'for you', accent: '#f5a9c0',
-    message: `Thank you for guiding, challenging, and shaping me along the way. You have been more than a teammate — you have felt like an older sibling who always made things lighter.`,
+    id: 'putu-anggi', name: 'Putu Anggi Suryantari', role: 'CMO', accent: '#f5a9c0',
+    message: `Terima kasih telah membimbing, menantang, dan membentuk diri aku selama ini. Anda lebih dari sekadar rekan satu tim; Anda sudah seperti kakak yang selalu membuat segalanya terasa lebih ringan.`,
     note: 'For the one who made the hard days a little easier.',
-    images: ['https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?auto=format&fit=crop&w=1200&q=85']
+    labels: ['THE PERSONAS', '"OUR HOME"', 'THE HARD DAYS', 'THE BEGINNING', 'A FINAL NOTE'],
+    images: [
+      '/images/anggi-1.jpeg',
+      '/images/anggi-6.jpeg',
+      '/images/anggi-4.jpeg',
+      '/images/anggi-7.jpeg',
+      '/images/anggi-2.jpeg'
+    ]
   },
   {
-    id: 'nama-tech-partner', name: 'Tech Partner', role: 'for you', accent: '#8ec8ff',
-    message: `Thank you for being my partner in the Tech Division — for helping, discussing, debugging, and simply being there. I'm sorry I couldn't always be the lead example you deserved.`,
+    id: 'rahayu-kartika', name: 'Rahayu Kartika Sari', role: 'Tech Bros/Sis', accent: '#8ec8ff',
+    message: `Terima kasih telah menjadi rekan yang baik di Divisi Teknis—atas bantuan, diskusi, proses debugging, serta kehadiran Anda. Aku mohon maaf karena tidak selalu bisa menjadi sosok pemimpin teladan yang layak Anda dapatkan. Long live woman in Tech!`,
     note: 'For the person who was there in the trenches.',
-    images: ['https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=85']
+    labels: ['WHO WE WERE', 'HAPPY BIRTHDAY', 'THE HARD DAYS', 'YOUR JOURNEYS END', 'A FINAL NOTE'],
+    images: [
+      '/images/rahayu-5.jpeg',
+      '/images/rahayu-4.jpeg',
+      '/images/rahayu-3.jpeg',
+      '/images/rahayu-2.jpeg',
+      '/images/rahayu-1.jpeg'
+    ]
   },
   {
-    id: 'nama-bendahara-sekretaris', name: 'Bendahara & Sekretaris', role: 'for you', accent: '#b7e4c7',
-    message: `Thank you for bringing laughter, warmth, and a little chaos into the room. Your presence had a bigger impact than you probably realize. I'm sorry for anything I ever did or said that made things harder.`,
+    id: 'adinda-aulia', name: 'Adinda Aulia Rahmawati', role: 'The Money Keeper', accent: '#b7e4c7',
+    message: `Terima kasih telah membawa tawa, kehangatan, dan sedikit keriuhan ke dalam ruangan ini. Kehadiranmu memberikan dampak yang lebih besar daripada yang mungkin kamu sadari. Aku minta maaf atas segala hal yang pernah aku lakukan atau katakan yang membuat keadaan menjadi lebih sulit.`,
     note: 'For the person who kept the room alive.',
-    images: ['https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=85']
+    labels: ['YOU ARE YOU!', 'WHAT WE BUILT', 'THE HARD DAYS', 'THE KEEPER', 'BIRTHDAY GIRLS'],
+    images: [
+      '/images/dinda-3.jpeg',
+      '/images/dinda-4.jpeg',
+      '/images/dinda-6.jpeg',
+      '/images/dinda-2.jpeg',
+      '/images/dinda-5.jpeg'
+    ]
   }
 ];
 
@@ -50,6 +78,7 @@ function App() {
   const [dragStart, setDragStart] = useState(null);
   const didDrag = useRef(false);
   const person = PEOPLE[personIndex];
+  const labels = person.labels || CARDS.map(card => card.label);
 
   useEffect(() => {
     const onPopState = () => {
@@ -165,7 +194,7 @@ function App() {
                 aria-label={`Open ${card.label} note for ${person.name}`}
                 onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') handleCardClick(i, isFront); }}>
                 <div className="paper-inner"><div className="tape" />
-                  <div className="paper-copy"><span>{card.label}</span>{isFront && <><strong>{person.name}</strong><em>for you</em></>}</div>
+                  <div className="paper-copy"><span>{labels[i]}</span>{isFront && <><strong>{person.name}</strong><em>for you</em></>}</div>
                   <div className="paper-number">0{i + 1}</div><div className="card-open-hint">tap to open</div>
                 </div>
               </article>
@@ -195,7 +224,7 @@ function App() {
 
       {selected !== null && <div className="modal-backdrop" onClick={() => setSelected(null)}><div className="letter-modal" onClick={(event) => event.stopPropagation()}>
         <button className="close" aria-label="Close note" onClick={() => setSelected(null)}>×</button>
-        <div className="letter-image" style={{ backgroundImage: `url(${person.images[selected]})` }}><span>{CARDS[selected].label}</span></div>
+        <div className="letter-image" style={{ backgroundImage: `url(${person.images[selected]})` }}><span>{labels[selected]}</span></div>
         <div className="letter-content"><div className="tiny">A NOTE FROM ME</div><h2>{person.name},<br /><i>for you.</i></h2><p>{person.message}</p><div className="signature"><span>♥</span>{person.note}</div></div>
         <button className="next-letter" onClick={() => { const next = (selected + 1) % CARDS.length; setCardIndex(next); setSelected(next); }}>next page ›</button>
       </div></div>}

@@ -128,9 +128,9 @@ function App() {
       <div className="grain" />
 
       <header className="topbar">
-        <button className="brand" onClick={() => navigateToPerson(0)} aria-label="Go to the first letter"><span className="brand-dot">◒</span><span>Paper Stories</span></button>
+        <button className="brand" onClick={() => navigateToPerson(0)} aria-label="Go to the first letter"><span className="brand-dot"></span><span>Our Stories</span></button>
         <div className="top-actions">
-          <button className="icon-btn" aria-label="Choose a letter" onClick={() => setMenu((value) => !value)}>⊞</button>
+          {/* <button className="icon-btn" aria-label="Choose a letter" onClick={() => setMenu((value) => !value)}>⊞</button> */}
           <button className="icon-btn info-button" aria-label="Open current note" onClick={openCurrentCard}>i</button>
           <button className="icon-btn" aria-label="Open people menu" onClick={() => setMenu((value) => !value)}>≡</button>
         </div>

@@ -1222,3 +1222,106 @@ h1 {
   min-width: 40px;
   text-align: center;
 }
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #111523;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  animation: splash-in 0.8s ease;
+}
+
+.splash-content {
+  text-align: center;
+  color: #f4f2ed;
+  animation: splash-content-in 1s ease 0.3s both;
+}
+
+.splash-logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 28px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+  animation: logo-glow 3s ease-in-out infinite;
+}
+
+.splash-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.splash-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 8vw, 100px);
+  margin: 0 0 14px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  background: linear-gradient(180deg, #ffffff 0%, #d8dce6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.splash-subtitle {
+  font: 500 15px 'DM Mono', monospace;
+  color: #aab1c4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 40px;
+}
+
+.splash-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #f4f2ed;
+  padding: 16px 40px;
+  border-radius: 40px;
+  font: 600 16px 'DM Sans', sans-serif;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  backdrop-filter: blur(10px);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.splash-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.splash-note {
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+@keyframes splash-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes splash-content-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes logo-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+    opacity: 0.8;
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4));
+    opacity: 1;
+  }
+}

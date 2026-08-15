@@ -80,6 +80,7 @@ function App() {
   const [volume, setVolume] = useState(0.5);
   const [menu, setMenu] = useState(false);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [entered, setEntered] = useState(() => sessionStorage.getItem('forYouEntered') === 'true');
   const [dragStart, setDragStart] = useState(null);
   const didDrag = useRef(false);
   const person = PEOPLE[personIndex];
@@ -112,7 +113,7 @@ function App() {
         setMusicPlaying(true);
         setShowMusicToast(true);
         setTimeout(() => setShowMusicToast(false), 2500);
-      }).catch(() => {});
+      }).catch(() => { });
     } else {
       audio.pause();
       setMusicPlaying(false);
@@ -180,106 +181,123 @@ function App() {
   };
 
   return (
-    <main className="app" onMouseMove={updateMouse} style={{ '--mx': mouse.x, '--my': mouse.y, '--accent': person.accent }}>
-      <div className="grain" />
-      <audio ref={audioRef} src="/music/Endank Soekamti - Sampai Jumpa Official Lyric Video with Sign Language.mp3" loop preload="auto" playsInline />
-
-      <header className="topbar">
-        <img className="stage-logo" src="/icons/logo-flyhigh-outline.png" alt="Paper Stories" />
-        <button className="brand" onClick={() => navigateToPerson(0)} aria-label="Go to the first letter"><span className="brand-dot"></span><span>Our Stories</span></button>
-        <div className="top-actions">
-          {/* <button className="icon-btn" aria-label="Choose a letter" onClick={() => setMenu((value) => !value)}>⊞</button> */}
-          <button className="icon-btn info-button" aria-label="Open current note" onClick={openCurrentCard}>i</button>
-          <button className="icon-btn" aria-label="Open people menu" onClick={() => setMenu((value) => !value)}>≡</button>
-        </div>
-      </header>
-
-      <section className="heading">
-        <div className="eyebrow">A little something for you</div>
-        <h1>{person.name}</h1>
-        <div className="subtitle">{person.role}</div>
-      </section>
-
-      {menu && <aside className="people-menu">
-        <div className="menu-title">Choose a letter</div>
-        {PEOPLE.map((p, i) => (
-          <button key={p.id} className={i === personIndex ? 'active' : ''} onClick={() => navigateToPerson(i)}>
-            <span>{String(i + 1).padStart(2, '0')}</span><strong>{p.name}</strong><small>{p.role}</small>
-          </button>
-        ))}
-      </aside>}
-
-      <section className="stage" onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp}>
-        <div className="orbit-shadow" />
-        <div className="stack" style={{ transform: `rotateX(${mouse.y * -1.2}deg) rotateY(${mouse.x * 2.3}deg)` }}>
-          {CARDS.map((card, i) => {
-            const offset = (i - cardIndex + CARDS.length) % CARDS.length;
-            const normalized = offset <= 2 ? offset : offset - CARDS.length;
-            const isFront = i === cardIndex;
-            return (
-              <article key={card.label} className={`paper-card ${isFront ? 'front' : ''}`}
-                style={{ '--i': normalized, backgroundImage: `url(${person.images[i]})`, zIndex: 20 - Math.abs(normalized) }}
-                onClick={() => handleCardClick(i, isFront)} role="button" tabIndex="0"
-                aria-label={`Open ${card.label} note for ${person.name}`}
-                onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') handleCardClick(i, isFront); }}>
-                <div className="paper-inner"><div className="tape" />
-                  <div className="paper-copy"><span>{labels[i]}</span>{isFront && <><strong>{person.name}</strong><em>for you</em></>}</div>
-                  <div className="paper-number">0{i + 1}</div><div className="card-open-hint">tap to open</div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-        <div className="side-control left"><button aria-label="Previous card" onClick={() => go(-1)}>‹</button></div>
-        <div className="side-control right"><button aria-label="Next card" onClick={() => go(1)}>›</button></div>
-      </section>
-
-      <nav className="bottom-nav" aria-label="Story controls">
-        <button aria-label="Choose person" onClick={() => setMenu((value) => !value)}>•••</button>
-        <button aria-label={playing ? 'Pause slideshow' : 'Play slideshow'} onClick={() => setPlaying((value) => !value)}>{playing ? 'Ⅱ' : '▶'}</button>
-        <button aria-label="Open note" className="info-button" onClick={openCurrentCard}>i</button>
-        <button aria-label="Open archive" onClick={() => setArchive(true)}>⊞</button>
-      </nav>
-      <div className="hint">drag / use arrows · tap any card to open · scroll to explore</div>
-
-      <section className="story-intro" aria-label="Story introduction">
-        <div className="story-rule" />
-        <p className="story-kicker">A small archive of memories</p>
-        <h2>Before I leave, I wanted to leave something behind.</h2>
-        <p>Every card is a little piece of the journey. Tap any photo to open it, or use the <strong>i</strong> button to open the current page.</p>
-        <p>I'm Sadrakh and officially signing out, peace ✌️</p>
-      </section>
-
-      {archive && <div className="grid-overlay"><div className="grid-head"><div><small>ARCHIVE</small><h2>For you.</h2></div><button aria-label="Close archive" onClick={() => setArchive(false)}>×</button></div><div className="grid-people">{PEOPLE.map((p, i) => <button key={p.id} onClick={() => navigateToPerson(i)} className="person-tile" style={{ backgroundImage: `url(${p.images[2]})` }}><span>{p.name}</span><small>{p.role}</small></button>)}</div></div>}
-
-      {selected !== null && <div className="modal-backdrop" onClick={() => setSelected(null)}><div className="letter-modal" onClick={(event) => event.stopPropagation()}>
-        <button className="close" aria-label="Close note" onClick={() => setSelected(null)}>×</button>
-        <div className="letter-image" style={{ backgroundImage: `url(${person.images[selected]})` }}><span>{labels[selected]}</span></div>
-        <div className="letter-content"><div className="tiny">A NOTE FROM ME</div><h2>{person.name},<br /><i>for you.</i></h2><p>{person.message}</p><div className="signature"><span>♥</span>{person.note}</div></div>
-        <button className="next-letter" onClick={() => { const next = (selected + 1) % CARDS.length; setCardIndex(next); setSelected(next); }}>next page ›</button>
-      </div></div>}
-
-      {showMusicToast && (
-        <div className="music-toast">♪ music started</div>
-      )}
-
-      <div className="music-bubble" onClick={() => setShowMusicPlayer((v) => !v)}>
-        {musicPlaying ? '♪' : '○'}
-      </div>
-
-      {showMusicPlayer && (
-        <div className="music-player">
-          <button onClick={() => setPlaying((v) => !v)}>
-            {playing ? '⏸ pause' : '▶ start'}
-          </button>
-          <div className="volume-control">
-            <button onClick={() => setVolume((v) => Math.max(0, +((v - 0.1).toFixed(1))))}>🔉</button>
-            <span>{Math.round(volume * 100)}%</span>
-            <button onClick={() => setVolume((v) => Math.min(1, +((v + 0.1).toFixed(1))))}>🔊</button>
+    <>
+      {!entered && (
+        <div className="splash" onClick={() => { setEntered(true); sessionStorage.setItem('forYouEntered', 'true'); setPlaying(true); }}>
+          <div className="splash-content">
+            <div className="splash-logo">
+              <img src="/icons/logo-flyhigh-outline.png" alt="Paper Stories" />
+            </div>
+            <h1>For You</h1>
+            <p className="splash-subtitle">A little something before I go</p>
+            <button className="splash-btn" onClick={(e) => { e.stopPropagation(); setEntered(true); sessionStorage.setItem('forYouEntered', 'true'); setPlaying(true); }}>
+              Open
+            </button>
           </div>
         </div>
       )}
-    </main>
+
+      <main className="app" onMouseMove={updateMouse} style={{ '--mx': mouse.x, '--my': mouse.y, '--accent': person.accent }}>
+        <div className="grain" />
+        <audio ref={audioRef} src="/music/Endank Soekamti - Sampai Jumpa Official Lyric Video with Sign Language.mp3" loop preload="auto" playsInline />
+
+        <header className="topbar">
+          <img className="stage-logo" src="/icons/logo-flyhigh-outline.png" alt="Paper Stories" />
+          <button className="brand" onClick={() => navigateToPerson(0)} aria-label="Go to the first letter"><span className="brand-dot"></span><span>Our Stories</span></button>
+          <div className="top-actions">
+            {/* <button className="icon-btn" aria-label="Choose a letter" onClick={() => setMenu((value) => !value)}>⊞</button> */}
+            <button className="icon-btn info-button" aria-label="Open current note" onClick={openCurrentCard}>i</button>
+            <button className="icon-btn" aria-label="Open people menu" onClick={() => setMenu((value) => !value)}>≡</button>
+          </div>
+        </header>
+
+        <section className="heading">
+          <div className="eyebrow">A little something for you</div>
+          <h1>{person.name}</h1>
+          <div className="subtitle">{person.role}</div>
+        </section>
+
+        {menu && <aside className="people-menu">
+          <div className="menu-title">Choose a letter</div>
+          {PEOPLE.map((p, i) => (
+            <button key={p.id} className={i === personIndex ? 'active' : ''} onClick={() => navigateToPerson(i)}>
+              <span>{String(i + 1).padStart(2, '0')}</span><strong>{p.name}</strong><small>{p.role}</small>
+            </button>
+          ))}
+        </aside>}
+
+        <section className="stage" onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp}>
+          <div className="orbit-shadow" />
+          <div className="stack" style={{ transform: `rotateX(${mouse.y * -1.2}deg) rotateY(${mouse.x * 2.3}deg)` }}>
+            {CARDS.map((card, i) => {
+              const offset = (i - cardIndex + CARDS.length) % CARDS.length;
+              const normalized = offset <= 2 ? offset : offset - CARDS.length;
+              const isFront = i === cardIndex;
+              return (
+                <article key={card.label} className={`paper-card ${isFront ? 'front' : ''}`}
+                  style={{ '--i': normalized, backgroundImage: `url(${person.images[i]})`, zIndex: 20 - Math.abs(normalized) }}
+                  onClick={() => handleCardClick(i, isFront)} role="button" tabIndex="0"
+                  aria-label={`Open ${card.label} note for ${person.name}`}
+                  onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') handleCardClick(i, isFront); }}>
+                  <div className="paper-inner"><div className="tape" />
+                    <div className="paper-copy"><span>{labels[i]}</span>{isFront && <><strong>{person.name}</strong><em>for you</em></>}</div>
+                    <div className="paper-number">0{i + 1}</div><div className="card-open-hint">tap to open</div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+          <div className="side-control left"><button aria-label="Previous card" onClick={() => go(-1)}>‹</button></div>
+          <div className="side-control right"><button aria-label="Next card" onClick={() => go(1)}>›</button></div>
+        </section>
+
+        <nav className="bottom-nav" aria-label="Story controls">
+          <button aria-label="Choose person" onClick={() => setMenu((value) => !value)}>•••</button>
+          <button aria-label={playing ? 'Pause slideshow' : 'Play slideshow'} onClick={() => setPlaying((value) => !value)}>{playing ? 'Ⅱ' : '▶'}</button>
+          <button aria-label="Open note" className="info-button" onClick={openCurrentCard}>i</button>
+          <button aria-label="Open archive" onClick={() => setArchive(true)}>⊞</button>
+        </nav>
+        <div className="hint">drag / use arrows · tap any card to open · scroll to explore</div>
+
+        <section className="story-intro" aria-label="Story introduction">
+          <div className="story-rule" />
+          <p className="story-kicker">A small archive of memories</p>
+          <h2>Before I leave, I wanted to leave something behind.</h2>
+          <p>Every card is a little piece of the journey. Tap any photo to open it, or use the <strong>i</strong> button to open the current page.</p>
+          <p>I'm Sadrakh and officially signing out, peace ✌️</p>
+        </section>
+
+        {archive && <div className="grid-overlay"><div className="grid-head"><div><small>ARCHIVE</small><h2>For you.</h2></div><button aria-label="Close archive" onClick={() => setArchive(false)}>×</button></div><div className="grid-people">{PEOPLE.map((p, i) => <button key={p.id} onClick={() => navigateToPerson(i)} className="person-tile" style={{ backgroundImage: `url(${p.images[2]})` }}><span>{p.name}</span><small>{p.role}</small></button>)}</div></div>}
+
+        {selected !== null && <div className="modal-backdrop" onClick={() => setSelected(null)}><div className="letter-modal" onClick={(event) => event.stopPropagation()}>
+          <button className="close" aria-label="Close note" onClick={() => setSelected(null)}>×</button>
+          <div className="letter-image" style={{ backgroundImage: `url(${person.images[selected]})` }}><span>{labels[selected]}</span></div>
+          <div className="letter-content"><div className="tiny">A NOTE FROM ME</div><h2>{person.name},<br /><i>for you.</i></h2><p>{person.message}</p><div className="signature"><span>♥</span>{person.note}</div></div>
+          <button className="next-letter" onClick={() => { const next = (selected + 1) % CARDS.length; setCardIndex(next); setSelected(next); }}>next page ›</button>
+        </div></div>}
+
+        {showMusicToast && (
+          <div className="music-toast">♪ Sampai Jumpa - Endank Soekamti</div>
+        )}
+
+        <div className="music-bubble" onClick={() => setShowMusicPlayer((v) => !v)}>
+          {musicPlaying ? '♪' : '○'}
+        </div>
+
+        {showMusicPlayer && (
+          <div className="music-player">
+            <button onClick={() => setPlaying((v) => !v)}>
+              {playing ? '⏸ pause' : '▶ start'}
+            </button>
+            <div className="volume-control">
+              <button onClick={() => setVolume((v) => Math.max(0, +((v - 0.1).toFixed(1))))}>🔉</button>
+              <span>{Math.round(volume * 100)}%</span>
+              <button onClick={() => setVolume((v) => Math.min(1, +((v + 0.1).toFixed(1))))}>🔊</button>
+            </div>
+          </div>
+        )}
+      </main>
+    </>
   );
 }
 

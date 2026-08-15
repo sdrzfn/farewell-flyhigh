@@ -72,7 +72,12 @@ function App() {
   const [cardIndex, setCardIndex] = useState(2);
   const [selected, setSelected] = useState(null);
   const [playing, setPlaying] = useState(true);
+  const audioRef = useRef(null);
   const [archive, setArchive] = useState(false);
+  const [showMusicToast, setShowMusicToast] = useState(false);
+  const [showMusicPlayer, setShowMusicPlayer] = useState(false);
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const [volume, setVolume] = useState(0.5);
   const [menu, setMenu] = useState(false);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [dragStart, setDragStart] = useState(null);
@@ -98,6 +103,28 @@ function App() {
     const timer = window.setInterval(() => setCardIndex((i) => (i + 1) % CARDS.length), 4200);
     return () => window.clearInterval(timer);
   }, [playing, selected, archive]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (playing && selected === null && !archive) {
+      audio.play().then(() => {
+        setMusicPlaying(true);
+        setShowMusicToast(true);
+        setTimeout(() => setShowMusicToast(false), 2500);
+      }).catch(() => {});
+    } else {
+      audio.pause();
+      setMusicPlaying(false);
+    }
+  }, [playing, selected, archive]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.volume = volume;
+    }
+  }, [volume]);
 
   useEffect(() => {
     const onKey = (event) => {
@@ -155,6 +182,7 @@ function App() {
   return (
     <main className="app" onMouseMove={updateMouse} style={{ '--mx': mouse.x, '--my': mouse.y, '--accent': person.accent }}>
       <div className="grain" />
+      <audio ref={audioRef} src="/music/Endank Soekamti - Sampai Jumpa Official Lyric Video with Sign Language.mp3" loop preload="auto" playsInline />
 
       <header className="topbar">
         <img className="stage-logo" src="/icons/logo-flyhigh-outline.png" alt="Paper Stories" />
@@ -230,6 +258,27 @@ function App() {
         <div className="letter-content"><div className="tiny">A NOTE FROM ME</div><h2>{person.name},<br /><i>for you.</i></h2><p>{person.message}</p><div className="signature"><span>♥</span>{person.note}</div></div>
         <button className="next-letter" onClick={() => { const next = (selected + 1) % CARDS.length; setCardIndex(next); setSelected(next); }}>next page ›</button>
       </div></div>}
+
+      {showMusicToast && (
+        <div className="music-toast">♪ music started</div>
+      )}
+
+      <div className="music-bubble" onClick={() => setShowMusicPlayer((v) => !v)}>
+        {musicPlaying ? '♪' : '○'}
+      </div>
+
+      {showMusicPlayer && (
+        <div className="music-player">
+          <button onClick={() => setPlaying((v) => !v)}>
+            {playing ? '⏸ pause' : '▶ start'}
+          </button>
+          <div className="volume-control">
+            <button onClick={() => setVolume((v) => Math.max(0, +((v - 0.1).toFixed(1))))}>🔉</button>
+            <span>{Math.round(volume * 100)}%</span>
+            <button onClick={() => setVolume((v) => Math.min(1, +((v + 0.1).toFixed(1))))}>🔊</button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

@@ -2,9 +2,13 @@
 
 :root { font-family:'DM Sans',sans-serif; color:#f4f2ed; background:#171b2b; font-synthesis:none; }
 * { box-sizing:border-box; }
-html { width:100%; min-height:100%; scroll-behavior:smooth; }
+html { width:100%; min-height:100%; scroll-behavior:smooth; overflow:hidden }
 body,#root { width:100%; min-height:100%; margin:0; }
-body { min-height:100vh; overflow-x:hidden; overflow-y:auto; background:#171b2b; }
+body { min-height:100vh; overflow-x:hidden; overflow-y:auto; scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.35) transparent; background:#171b2b; }
+body::-webkit-scrollbar { width:6px; }
+body::-webkit-scrollbar-track { background:transparent; }
+body::-webkit-scrollbar-thumb { background:rgba(255,255,255,.35); border-radius:3px; }
+body::-webkit-scrollbar-thumb:hover { background:rgba(255,255,255,.55); }
 button { border:0; color:inherit; font:inherit; cursor:pointer; }
 button:focus-visible { outline:2px solid var(--accent,#f6d58c); outline-offset:4px; }
 .app { --mx:0; --my:0; --accent:#f6d58c; position:relative; width:100%; min-height:100svh; overflow-x:hidden; isolation:isolate; background:radial-gradient(circle at 50% 32%,#3b415d 0%,#272d45 35%,#191e30 72%,#111523 100%); }

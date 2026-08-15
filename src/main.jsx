@@ -157,6 +157,7 @@ function App() {
       <div className="grain" />
 
       <header className="topbar">
+        <img className="stage-logo" src="/icons/logo-flyhigh-outline.png" alt="Paper Stories" />
         <button className="brand" onClick={() => navigateToPerson(0)} aria-label="Go to the first letter"><span className="brand-dot"></span><span>Our Stories</span></button>
         <div className="top-actions">
           {/* <button className="icon-btn" aria-label="Choose a letter" onClick={() => setMenu((value) => !value)}>⊞</button> */}
@@ -166,7 +167,7 @@ function App() {
       </header>
 
       <section className="heading">
-        <div className="eyebrow">A little something for you before I go</div>
+        <div className="eyebrow">A little something for you</div>
         <h1>{person.name}</h1>
         <div className="subtitle">{person.role}</div>
       </section>
